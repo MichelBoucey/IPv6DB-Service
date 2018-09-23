@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: ipv6db_frontend
+    depends_on:
+      - backend
+    build: frontend/
+    networks:
+      app_net:
+        ipv4_address: 172.7.0.2
+
+  backend:
+    container_name: ipv6db_backend
+    image: redis
+    networks:
+      app_net:
+        ipv4_address: 172.7.0.3
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.7.0.0/24
