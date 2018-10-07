@@ -1,16 +1,27 @@
-build:
-ifeq (,$(wildcard frontend/ipv6db))
-	git clone https://github.com/MichelBoucey/IPv6DB.git
-	@cd IPv6DB && stack install --local-bin-path=../frontend/
-endif
-	docker-compose build
+help:
+	@echo "make [build|start|stop|test]"
 
-clean:
-	@rm -rf IPv6DB frontend/ipv6db
+.PHONY: build start stop test
+
+build:
+	@docker-compose build
 
 start:
-	docker-compose run -p 4446:4446 frontend
-	@echo "IPv6DB enabled on http://localhost:4446"
+	@docker-compose run -p 4446:4446 frontend
 
 stop:
-	docker-compose down
+	@docker-compose down
+
+test:
+	@echo -e "\nGet a resource which does not exist yet"
+	curl http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
+	@echo -e "\n\nAdd this resource"
+	curl -X POST -d '{ "source": { "test": "OK" } }' http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
+	@echo -e "\nGet this resource"
+	curl http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
+	@echo -e "\n\nUpdate this resource"
+	curl -X PUT -d '{ "source": { "test": "OK", "version": 2 } }' http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
+	@echo -e "\nGet this resource updated"
+	curl http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
+	@echo -e "\n\nDelete this resource"
+	curl -X DELETE http://localhost:4446/ipv6db/v1/list/my_hosts/addresses/12::34
