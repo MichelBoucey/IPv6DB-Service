@@ -4,10 +4,10 @@ help:
 .PHONY: build start stop test
 
 build:
-	@docker-compose build
+	@docker-compose build --force-rm
 
 start:
-	@docker-compose run -d -p 4446:4446 frontend
+	@docker-compose run -d -p 4446:4446 --name ipv6db_frontend frontend
 
 stop:
 	@docker-compose down

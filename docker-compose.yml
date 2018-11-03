@@ -1,12 +1,15 @@
-version: "3"
+version: '3'
 
 services:
   frontend:
     container_name: ipv6db_frontend
+    build: frontend/
+    image: ipv6db:latest
     depends_on:
       - backend
-    build: frontend/
+    links:
+      - backend
 
   backend:
     container_name: ipv6db_backend
-    image: redis
+    image: redis:latest
