@@ -1,8 +1,8 @@
-FROM alpine:3.19 AS build
+FROM alpine:3.19.1 AS build
 
 ENV PATH="/root/.ghcup/bin:$PATH" \
     BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
-    BOOTSTRAP_HASKELL_GHC_VERSION=latest \
+    BOOTSTRAP_HASKELL_GHC_VERSION=9.8.2 \
     BOOTSTRAP_HASKELL_CABAL_VERSION=latest \
     BOOTSTRAP_HASKELL_ADJUST_BASHRC=P
 
@@ -16,7 +16,7 @@ RUN git clone https://github.com/MichelBoucey/IPv6DB.git
 WORKDIR /tmp/IPv6DB
 RUN cabal install --installdir=/usr/local/bin/
 
-FROM alpine:3.19
+FROM alpine:3.19.1
 
 RUN apk add --no-cache gmp-dev
 
