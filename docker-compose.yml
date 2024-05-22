@@ -1,10 +1,7 @@
-version: '3'
-
 services:
   frontend:
     container_name: ipv6db_frontend
-    build: frontend/
-    image: ipv6db:latest
+    image: ipv6db:0.3.3.2
     depends_on:
       - backend
     links:
