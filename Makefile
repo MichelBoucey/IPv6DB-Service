@@ -1,10 +1,7 @@
 help:
-	@echo "make [build|start|stop|test]"
+	@echo "make [start|stop|test]"
 
-.PHONY: build start stop test
-
-build:
-	@docker-compose build --force-rm
+.PHONY: start stop test
 
 start:
 	@docker-compose run -d -p 4446:4446 --name ipv6db_frontend frontend
