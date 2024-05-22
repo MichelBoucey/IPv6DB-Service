@@ -1,7 +1,7 @@
 services:
   frontend:
     container_name: ipv6db_frontend
-    image: ipv6db:0.3.3.2
+    image: cloudyfunctor/ipv6db:0.3.3.2
     depends_on:
       - backend
     links:
