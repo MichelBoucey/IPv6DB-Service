@@ -18,9 +18,12 @@ RUN cabal install --installdir=/usr/local/bin/
 
 FROM alpine:3.19.1
 
+ARG IPV6DB_REDIS_HOST=ipv6db_backend
+ENV IPV6DB_REDIS_HOST $IPV6DB_REDIS_HOST
+
 RUN apk add --no-cache gmp-dev
 
 COPY --from=build /usr/local/bin/ipv6db /usr/local/bin/
 
 EXPOSE 4446
-ENTRYPOINT [ "/usr/local/bin/ipv6db", "-h", "0.0.0.0", "--redis-host", "ipv6db_backend" ]
+ENTRYPOINT /usr/local/bin/ipv6db -h 0.0.0.0 --redis-host ${IPV6DB_REDIS_HOST}
